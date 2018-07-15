@@ -14,24 +14,25 @@
 #include "List.hpp"
 #include <iostream>
 #include <cstdarg>
+#include <string>
 
-
-
-void List::insert(int data) {
-    Node **tail;
+template<typename T>
+void List<T>::insert(T data) {
+    Node<T> **tail;
     for (tail = &this->nodes; *tail != nullptr; tail = &(*tail)->next);
-    *tail = new Node;
+    *tail = new Node<T>;
     (*tail)->data = data;
     (*tail)->next = nullptr;
 }
 
 
-void List::remove(int data) {
-    Node **node = &this->nodes, **prev = &this->nodes;
+template<typename T>
+void List<T>::remove(T data) {
+    Node<T> **node = &this->nodes, **prev = &this->nodes;
 
     while (*node != nullptr) {
         if ((*node)->data == data) {
-            Node *to_delete = *node;
+            Node<T> *to_delete = *node;
             if (*prev == *node) {
                 (*node) = (*node)->next;
             } else if ((*node)->next == nullptr) {
@@ -48,9 +49,9 @@ void List::remove(int data) {
     }
 }
 
-
-int List::index(int data) {
-    Node *node;
+template<typename T>
+int List<T>::index(T data) {
+    Node<T> *node;
     int idx = 0;
     for (node = this->nodes; node != nullptr; node = node->next) {
         if (node->data == data) {
@@ -61,11 +62,11 @@ int List::index(int data) {
     return -1;
 }
 
-
-void List::show() {
+template<typename T>
+void List<T>::show() {
     using namespace std;
     cout << "[";
-    Node **node;
+    Node<T> **node;
     for (node = &this->nodes; *node != nullptr; node = &(*node)->next) {
         cout << (*node)->data;
         if ((*node)->next != nullptr) {
@@ -75,17 +76,19 @@ void List::show() {
     cout << "]" << endl;
 }
 
-void List::push(int data) {
-    Node *head = new Node;
+template<typename T>
+void List<T>::push(T data) {
+    Node<T> *head = new Node<T>;
     head->data = data;
     head->next = this->nodes;
     this->nodes = head;
 }
 
-int List::pop(void) {
-    int data = -1;
+template<typename T>
+T List<T>::pop(void) {
+    T data;
     if (this->nodes != nullptr) {
-        Node *new_head;
+        Node<T> *new_head;
         new_head = this->nodes->next;
         delete this->nodes;
         this->nodes = new_head;
@@ -94,30 +97,39 @@ int List::pop(void) {
     return data;
 }
 
-void free_nodes(Node *head) {
+template<typename T>
+void free_nodes(Node<T> *head) {
     if (head != nullptr) {
         free_nodes(head->next);
         delete head;
     }
 }
 
-void List::clear(void) {
+template<typename T>
+void List<T>::clear(void) {
     free_nodes(this->nodes);
     this->nodes = nullptr;
 }
 
-List::~List() {
+template<typename T>
+List<T>::~List() {
     this->clear();
 }
 
-List::List(int n_elements, ...) {
+template<typename T>
+List<T>::List(int n_elements, ...) {
     va_list args;
     va_start(args, n_elements);
 
     while (n_elements--) {
-        int i = va_arg(args, int);
+        T i = va_arg(args, T);
         this->insert(i);
     }
 
     va_end(args);
 }
+
+template class List<int>;
+template class List<double>;
+template class List<const char*>;
+template class List<std::string>;

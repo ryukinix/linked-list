@@ -13,24 +13,22 @@
 
 #include "List.hpp"
 #include <iostream>
-
 using namespace std;
 
 int main() {
-    List l(0);
+    List<const char*> l(2, "templates", "infernais");
     l.show();
-    for (int i = 0; i <= 10; i++) {
-        l.insert(i);
-    }
-    for (int i = 0; i <= 10; i += 2) {
-        l.remove(i);
-    }
+    l.push("banana");
     l.show();
-    l.clear();
-    l.push(1); l.push(2); l.push(3);
+    l.push("abacate");
     l.show();
-    l.pop(); l.show();
-    l.pop(); l.show();
-    l.pop(); l.show();
+    l.push("maçã");
+    l.show();
+    l.pop();
+    l.show();
+    l.pop();
+    l.show();
+    l.pop();
+    l.show();
     return 0;
 }

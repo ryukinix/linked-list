@@ -13,21 +13,23 @@
 #ifndef LIST_H
 #define LIST_H
 
-typedef struct node {
-    int data;
-    struct node *next;
-} Node;
+template<typename T>
+struct Node {
+    T data;
+    Node<T> *next;
+};
 
+template<typename T>
 class List {
 private:
-    Node *nodes = nullptr;
+    Node<T> *nodes = nullptr;
 public:
-    void insert(int);
-    void remove(int);
-    int index(int);
+    void insert(T);
+    void remove(T);
+    int index(T);
     void show(void);
-    void push(int);
-    int pop(void);
+    void push(T);
+    T pop(void);
     void clear(void);
     ~List();
     List(int n_elements, ...);
