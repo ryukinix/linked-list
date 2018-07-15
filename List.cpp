@@ -13,6 +13,7 @@
 
 #include "List.hpp"
 #include <iostream>
+#include <cstdarg>
 
 
 
@@ -74,6 +75,25 @@ void List::show() {
     cout << "]" << endl;
 }
 
+void List::push(int data) {
+    Node *head = new Node;
+    head->data = data;
+    head->next = this->nodes;
+    this->nodes = head;
+}
+
+int List::pop(void) {
+    int data = -1;
+    if (this->nodes != nullptr) {
+        Node *new_head;
+        new_head = this->nodes->next;
+        delete this->nodes;
+        this->nodes = new_head;
+    }
+
+    return data;
+}
+
 void free_nodes(Node *head) {
     if (head != nullptr) {
         free_nodes(head->next);
@@ -81,6 +101,23 @@ void free_nodes(Node *head) {
     }
 }
 
-List::~List() {
+void List::clear(void) {
     free_nodes(this->nodes);
+    this->nodes = nullptr;
+}
+
+List::~List() {
+    this->clear();
+}
+
+List::List(int n_elements, ...) {
+    va_list args;
+    va_start(args, n_elements);
+
+    while (n_elements--) {
+        int i = va_arg(args, int);
+        this->insert(i);
+    }
+
+    va_end(args);
 }

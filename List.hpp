@@ -26,7 +26,11 @@ public:
     void remove(int);
     int index(int);
     void show(void);
+    void push(int);
+    int pop(void);
+    void clear(void);
     ~List();
+    List(int n_elements, ...);
 };
 
 #endif
