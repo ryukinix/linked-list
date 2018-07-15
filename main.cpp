@@ -18,13 +18,12 @@ using namespace std;
 
 int main() {
     List l;
-    l.insert(1);
-    l.insert(2);
-    l.insert(2);
-    l.insert(3);
-    l.insert(2);
-    l.remove(3);
+    for (int i = 0; i <= 10; i++) {
+        l.insert(i);
+    }
+    for (int i = 0; i <= 10; i += 2) {
+        l.remove(i);
+    }
     l.show();
-    cout << l.index(3) << endl;
     return 0;
 }
